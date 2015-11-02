@@ -1,0 +1,1 @@
+web: gulp && python -u server.py
