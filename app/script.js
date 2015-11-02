@@ -62,7 +62,7 @@
     block.gfm = merge({}, block.normal, {
         fences: /^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/,
         paragraph: /^/,
-        heading: /^ *(#{1,6}) +([^\n]+?) *#* *(?:\n+|$)/
+        heading: /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/
     });
     block.gfm.paragraph = replace(block.paragraph)
         ('(?!', '(?!' + block.gfm.fences.source.replace('\\1', '\\2') + '|' + block.list.source.replace('\\1', '\\3') + '|')
@@ -1001,7 +1001,8 @@
 }).call(function() {
     return this || (typeof window !== 'undefined' ? window : global);
 }());
-// Hand-rolled JS
+// Hand-rolled 
+
 var codeBlock = document.querySelector('textarea');
 var render = document.querySelector('article');
 codeBlock.onkeyup = (function(e) {
