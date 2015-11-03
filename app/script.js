@@ -1039,3 +1039,34 @@ bindOutput = (function() {
 bindInput();
 bindOutput();
 
+document.querySelector('.i-share').onclick = (function() {
+    var x = new XMLHttpRequest();
+        var data = {
+            "description": "Made with zerk.",
+            "files": {
+                "markdown.md": {
+                    "content": codeBlock.value
+                }
+            }
+        };
+    x.onreadystatechange = (function() {
+        if(x.readyState === 4) {
+            if(x.response != null) {
+               link = document.querySelector('.share-link');
+               link.href = x.response["url"];
+               link.innerText = x.response["url"];
+               link.style.color = "rgba(0, 0, 0, 0.6)";
+               setTimeout(function() {
+                    link.style.color = "";
+               }, 60000);
+
+            } else {
+                document.querySelector('.share-link').innerText = "An error occured ... ";
+            }
+        }
+    });
+    x.open('post', 'https://api.github.com/gists');
+    x.responseType = "json"; 
+    document.querySelector('.share-link').innerText = "Please wait ... ";
+    x.send(JSON.stringify(data)); 
+});
