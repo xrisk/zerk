@@ -1002,9 +1002,49 @@
     return this || (typeof window !== 'undefined' ? window : global);
 }());
 // Hand-rolled 
-
+marked.setOptions({
+    smartLists: true,
+    smartypants: true
+});
 var codeBlock = document.querySelector('textarea');
 var render = document.querySelector('article');
 codeBlock.onkeyup = (function(e) {
-    render.innerHTML = marked(codeBlock.value);
+   processMarkup(); 
 });
+function processMarkup() {
+    render.innerHTML = marked(codeBlock.value);
+}
+$(document).ready(function(){
+    processMarkup();
+});
+//sync scroll
+function bindInput(){
+$('#input').scroll(function() {
+    var max = $('#input')[0].scrollHeight - $('#input')[0].clientHeight;
+    var current = $('#input').scrollTop();
+    var percet = current / max;
+    var maxNew = $('#output')[0].scrollHeight - $('#output')[0].clientHeight;
+    var newPixel = maxNew * percet;
+    $('#output').unbind("scroll");
+        $('#output').scrollTop(parseInt(newPixel));
+        $('#output').bind("scroll", function(){
+            bindOutput();
+        });
+});
+}
+function bindOutput(){
+$('#output').scroll(function() {
+    var max = $('#output')[0].scrollHeight - $('#output')[0].clientHeight;
+    var current = $('#output').scrollTop();
+    var percet = current / max;
+    var maxNew = $('#input')[0].scrollHeight - $('#input')[0].clientHeight;
+    var newPixel = maxNew * percet;
+    $('#input').unbind("scroll");
+        $('#input').scrollTop(parseInt(newPixel));
+    $('#input').bind("scroll", function() {
+        bindInput();
+    });
+});
+}
+bindInput();
+bindOutput();
