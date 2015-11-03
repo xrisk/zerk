@@ -828,11 +828,10 @@ body .markdown-body {
 
     .share-link {
         font-family: monospace;
-        color: rgba(0, 0, 0, 0.1);
+        color: rgba(0, 0, 0, 0.3);
         padding-right: 30px;
         transition: color 0.3s;
     }
     .share-link:hover {
         color: rgba(0, 0, 0, 0.6);
     }
- 
