@@ -9,9 +9,10 @@ gulp.task('clean', function() {
 	del('*.gzip');
 	del('dist');
 });
+
 gulp.task('default', ['clean'], function() {
 	// gulp.run('clean');
-    gulp.src('app/*')
+    gulp.src('app/**/*')
       .pipe(gulpIf('*.css',  mincss()))
       .pipe(gulpIf('*.html', minhtml()))
       .pipe(gulpIf('*.js', uglify()))
