@@ -8,3 +8,7 @@ Fully in-browser with zero server-side processing.
 ##### License
 
 MIT, with attribution required to [xrisk](https://github.cm/xrisk).
+
+##### Contributors
+
+[xrisk](https://github.cm/xrisk) & [onlineth](https://github.cm/onlineth)
