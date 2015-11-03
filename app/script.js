@@ -1040,6 +1040,13 @@ bindInput();
 bindOutput();
 
 document.querySelector('.i-share').onclick = (function() {
+    if(codeBlock.value === "") {
+        document.querySelector('.share-link').innerText = "Need something to share ... ";
+        window.setTimeout(function() {
+            document.querySelector('.share-link').innerText = "";
+        }, 30000);
+        return;
+    }
     var x = new XMLHttpRequest();
         var data = {
             "description": "Made with zerk.",
@@ -1053,14 +1060,16 @@ document.querySelector('.i-share').onclick = (function() {
         if(x.readyState === 4) {
             if(x.response != null) {
                link = document.querySelector('.share-link');
-               link.href = x.response["url"];
-               link.innerText = x.response["url"];
+               window.clearTimeout();
+               link.href = x.response["html_url"];
+               link.innerText = x.response["html_url"];
                link.style.color = "rgba(0, 0, 0, 0.6)";
                setTimeout(function() {
                     link.style.color = "";
                }, 60000);
 
             } else {
+                window.clearTimeout();
                 document.querySelector('.share-link').innerText = "An error occured ... ";
             }
         }
