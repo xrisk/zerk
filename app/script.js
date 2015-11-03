@@ -1063,6 +1063,7 @@ document.querySelector('.i-share').onclick = (function() {
                window.clearTimeout();
                link.href = x.response["html_url"];
                link.innerText = x.response["html_url"];
+               link.target = "_blank";
                link.style.color = "rgba(0, 0, 0, 0.6)";
                setTimeout(function() {
                     link.style.color = "";
