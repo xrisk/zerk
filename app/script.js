@@ -1002,10 +1002,7 @@
     return this || (typeof window !== 'undefined' ? window : global);
 }());
 // Hand-rolled 
-marked.setOptions({
-    smartLists: true,
-    smartypants: true
-});
+
 var codeBlock = document.querySelector('textarea');
 var render = document.querySelector('article');
 codeBlock.onkeyup = (function(e) {
