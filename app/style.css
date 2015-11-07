@@ -724,7 +724,6 @@ body .markdown-body {
     vertical-align: middle;
 }
 
-<<<<<<< HEAD
 html, body {
     margin: 0;
     padding-left: 0;
@@ -834,18 +833,17 @@ body::-webkit-scrollbar-corner {
     border-width: 3px 0 0 3px;
     box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .14)
 }
-=======
+
 
 /*======== END MARKDOWN CSS ===================*/
+
+
 /*======== BEGIN ICOMOON FONT CSS ===================*/
 
 @font-face {
     font-family: 'icomoon';
-    src:url('fonts/icomoon.eot?kbs3sw');
-    src:url('fonts/icomoon.eot?kbs3sw#iefix') format('embedded-opentype'),
-        url('fonts/icomoon.ttf?kbs3sw') format('truetype'),
-        url('fonts/icomoon.woff?kbs3sw') format('woff'),
-        url('fonts/icomoon.svg?kbs3sw#icomoon') format('svg');
+    src: url('fonts/icomoon.eot?kbs3sw');
+    src: url('fonts/icomoon.eot?kbs3sw#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?kbs3sw') format('truetype'), url('fonts/icomoon.woff?kbs3sw') format('woff'), url('fonts/icomoon.svg?kbs3sw#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -858,7 +856,6 @@ body::-webkit-scrollbar-corner {
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -867,83 +864,90 @@ body::-webkit-scrollbar-corner {
 .i-menu:before {
     content: "\e120";
 }
+
 .i-share:before {
     content: "\e901";
 }
+
 .i-github:before {
     content: "\e902";
 }
 
+
 /*================ END ICOMOON FONT CSS ===============*/
 
-    html, body {
-        margin: 0;
-        padding-left: 0;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-    }
-    .code {
-        position: absolute;
-        height: 100%;
-        width: 50%;
-        font-family:  monospace;
-        box-sizing: border-box;
-        padding: 2%;
-        border: none;
-        border-right: 1px rgba(0, 0, 0, 0.55) solid;
-        box-shadow: none;
-        outline: none;
-        font-size: 12pt;
-    }
-    .markdown-body {
-        position: absolute;
-        left: 50%;
-        height: 100%;
-        width: 50%;
-        overflow: auto;
-        box-sizing: border-box;
-    }
+html, body {
+    margin: 0;
+    padding-left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
 
-    textarea {
-        height: 100%;  
-        width: 100%;
-    }
+.code {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    font-family: monospace;
+    box-sizing: border-box;
+    padding: 2%;
+    border: none;
+    border-right: 1px rgba(0, 0, 0, 0.55) solid;
+    box-shadow: none;
+    outline: none;
+    font-size: 12pt;
+}
 
-    nav {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 70px;
-        z-index: 5;
-        line-height: 70px;
-        right: 15px;
-        text-align: right;
-    }
-    i {
-      height: 60px;
-      line-height: 60px;
-      white-space: nowrap;
-      display: inline;
-      font-size: 22pt;
-    }
+.markdown-body {
+    position: absolute;
+    left: 50%;
+    height: 100%;
+    width: 50%;
+    overflow: auto;
+    box-sizing: border-box;
+}
 
-    .i-share {
-        cursor: pointer;
-        color: rgba(0, 0, 0, 0.55);
-        transition: color 0.2s;
-    }
-    .i-share:hover {
-        color: rgba(0, 0, 0, 0.7);
-    }
+textarea {
+    height: 100%;
+    width: 100%;
+}
 
-    .share-link {
-        font-family: monospace;
-        color: rgba(0, 0, 0, 0.3);
-        padding-right: 30px;
-        transition: color 0.3s;
-    }
-    .share-link:hover {
-        color: rgba(0, 0, 0, 0.6);
-    }
->>>>>>> refs/remotes/xrisk/master
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 5;
+    line-height: 70px;
+    right: 15px;
+    text-align: right;
+}
+
+i {
+    height: 60px;
+    line-height: 60px;
+    white-space: nowrap;
+    display: inline;
+    font-size: 22pt;
+}
+
+.i-share {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.55);
+    transition: color 0.2s;
+}
+
+.i-share:hover {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.share-link {
+    font-family: monospace;
+    color: rgba(0, 0, 0, 0.3);
+    padding-right: 30px;
+    transition: color 0.3s;
+}
+
+.share-link:hover {
+    color: rgba(0, 0, 0, 0.6);
+}
