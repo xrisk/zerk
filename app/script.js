@@ -1001,50 +1001,82 @@
 }).call(function() {
     return this || (typeof window !== 'undefined' ? window : global);
 }());
+
 // Hand-rolled 
-marked.setOptions({
-    smartLists: true,
-    smartypants: true
-});
+
 var codeBlock = document.querySelector('textarea');
 var render = document.querySelector('article');
 codeBlock.onkeyup = (function(e) {
-   processMarkup(); 
+   render.innerHTML = marked(codeBlock.value);
 });
-function processMarkup() {
-    render.innerHTML = marked(codeBlock.value);
-}
-$(document).ready(function(){
-    processMarkup();
+
+bindInput = (function() {
+    codeBlock.onscroll = (function() {
+        var max = codeBlock.scrollHeight - codeBlock.clientHeight;
+        var current = codeBlock.scrollTop;
+        var percet = current / max;
+        var maxNew = render.scrollHeight - render.clientHeight;
+        var newPixel = maxNew * percet;
+        render.onscroll = undefined;
+        render.scrollTop = parseInt(newPixel);
+        render.onscroll = bindOutput;
 });
-//sync scroll
-function bindInput(){
-$('#input').scroll(function() {
-    var max = $('#input')[0].scrollHeight - $('#input')[0].clientHeight;
-    var current = $('#input').scrollTop();
-    var percet = current / max;
-    var maxNew = $('#output')[0].scrollHeight - $('#output')[0].clientHeight;
-    var newPixel = maxNew * percet;
-    $('#output').unbind("scroll");
-        $('#output').scrollTop(parseInt(newPixel));
-        $('#output').bind("scroll", function(){
-            bindOutput();
+});
+
+bindOutput = (function() {
+    render.onscroll = (function() {
+        var max = render.scrollHeight - render.clientHeight;
+        var current = render.scrollTop;
+        var percet = current / max;
+        var maxNew = codeBlock.scrollHeight - codeBlock.clientHeight;
+        var newPixel = maxNew * percet;
+        codeBlock.onscroll = undefined;
+        codeBlock.scrollTop = parseInt(newPixel);
+        codeBlock.onscroll = bindInput;
         });
 });
-}
-function bindOutput(){
-$('#output').scroll(function() {
-    var max = $('#output')[0].scrollHeight - $('#output')[0].clientHeight;
-    var current = $('#output').scrollTop();
-    var percet = current / max;
-    var maxNew = $('#input')[0].scrollHeight - $('#input')[0].clientHeight;
-    var newPixel = maxNew * percet;
-    $('#input').unbind("scroll");
-        $('#input').scrollTop(parseInt(newPixel));
-    $('#input').bind("scroll", function() {
-        bindInput();
-    });
-});
-}
+
 bindInput();
 bindOutput();
+
+document.querySelector('.i-share').onclick = (function() {
+    if(codeBlock.value === "") {
+        document.querySelector('.share-link').innerText = "Need something to share ... ";
+        window.setTimeout(function() {
+            document.querySelector('.share-link').innerText = "";
+        }, 30000);
+        return;
+    }
+    var x = new XMLHttpRequest();
+        var data = {
+            "description": "Made with zerk.",
+            "files": {
+                "markdown.md": {
+                    "content": codeBlock.value
+                }
+            }
+        };
+    x.onreadystatechange = (function() {
+        if(x.readyState === 4) {
+            if(x.response != null) {
+               link = document.querySelector('.share-link');
+               window.clearTimeout();
+               link.href = x.response["html_url"];
+               link.innerText = x.response["html_url"];
+               link.target = "_blank";
+               link.style.color = "rgba(0, 0, 0, 0.6)";
+               setTimeout(function() {
+                    link.style.color = "";
+               }, 60000);
+
+            } else {
+                window.clearTimeout();
+                document.querySelector('.share-link').innerText = "An error occured ... ";
+            }
+        }
+    });
+    x.open('post', 'https://api.github.com/gists');
+    x.responseType = "json"; 
+    document.querySelector('.share-link').innerText = "Please wait ... ";
+    x.send(JSON.stringify(data)); 
+});
