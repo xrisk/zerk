@@ -724,36 +724,38 @@ body .markdown-body {
     vertical-align: middle;
 }
 
-    html, body {
-        margin: 0;
-        padding-left: 0;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-    }
-    .code {
-        position: absolute;
-        height: 100%;
-        width: 50%;
-        font-family:  monospace;
-        box-sizing: border-box;
-        padding: 2%;
-        border: none;
-        border-right: 1px rgba(0, 0, 0, 0.55) solid;
-        box-shadow: none;
-        outline: none;
-        font-size: 12pt;
-    }
-    .markdown-body {
-        position: absolute;
-        left: 50%;
-        height: 100%;
-        width: 50%;
-        overflow: auto;
-        box-sizing: border-box;
-    }
+html, body {
+    margin: 0;
+    padding-left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
 
-    textarea {
-        height: 100%;  
-        width: 100%;
-    }
+.code {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    font-family: monospace;
+    box-sizing: border-box;
+    padding: 2%;
+    border: none;
+    border-right: 1px rgba(0, 0, 0, 0.55) solid;
+    box-shadow: none;
+    outline: none;
+    font-size: 12pt;
+}
+
+.markdown-body {
+    position: absolute;
+    left: 50%;
+    height: 100%;
+    width: 50%;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 100%;
+    width: 100%;
+}
