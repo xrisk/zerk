@@ -1085,6 +1085,8 @@ if (navigator.userAgent.indexOf('Mac OS X') == -1) {
     document.body.classList.add("non-mac");
 }
 
+codeBlock.placeholder = "# Hi!\nThis is a markdown REPL.\nGo ahead, type in some awesomeness."
+
 WebFontConfig = {
   typekit: { id: 'hzi2nkr' }
 };
