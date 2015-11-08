@@ -18,5 +18,18 @@
     "gulp-if": "^2.0.0",
     "gulp-minify-html": "^1.0.4",
     "gulp-uglify": "^1.4.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xrisk/zerk.git"
+  },
+  "keywords": [
+    "markdown",
+    "repl"
+  ],
+  "bugs": {
+    "url": "https://github.com/xrisk/zerk/issues"
+  },
+  "homepage": "https://github.com/xrisk/zerk#readme"
 }
