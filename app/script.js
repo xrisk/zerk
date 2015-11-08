@@ -1080,3 +1080,8 @@ document.querySelector('.i-share').onclick = (function() {
     document.querySelector('.share-link').innerText = "Please wait ... ";
     x.send(JSON.stringify(data)); 
 });
+
+if (navigator.userAgent.indexOf('Mac OS X') == -1) {
+    document.querySelector("body").classList.add("non-mac");
+}
+
