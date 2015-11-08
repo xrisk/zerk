@@ -1082,7 +1082,7 @@ document.querySelector('.i-share').onclick = (function() {
 });
 
 if (navigator.userAgent.indexOf('Mac OS X') == -1) {
-    document.querySelector("body").classList.add("non-mac");
+    document.body.classList.add("non-mac");
 }
 
 WebFontConfig = {
