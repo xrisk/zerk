@@ -1,9 +1,10 @@
 var gulp = require('gulp'),
-    mincss = require('gulp-minify-css'), 
+    nano = require('gulp-cssnano'),
     minhtml = require('gulp-minify-html'),
     gulpIf = require('gulp-if'), 
     uglify = require('gulp-uglify'), 
-    del = require('del');
+    del = require('del'), 
+    autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('clean', function() {
 	del('*.gzip');
@@ -11,10 +12,9 @@ gulp.task('clean', function() {
 });
 
 gulp.task('default', ['clean'], function() {
-	// gulp.run('clean');
     gulp.src('app/**/*')
-      .pipe(gulpIf('*.css',  mincss()))
+      .pipe(gulpIf('*.css',  nano(autoprefixer())))
       .pipe(gulpIf('*.html', minhtml()))
       .pipe(gulpIf('*.js', uglify()))
-      .pipe(gulp.dest('dist/'));
+      .pipe(gulp.dest('public/'));
 });

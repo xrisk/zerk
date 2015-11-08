@@ -1,1 +1,1 @@
-web: gulp && python -u server.py
+web: node start.js

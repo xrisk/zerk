@@ -1085,3 +1085,12 @@ if (navigator.userAgent.indexOf('Mac OS X') == -1) {
     document.querySelector("body").classList.add("non-mac");
 }
 
+WebFontConfig = {
+  typekit: { id: 'hzi2nkr' }
+};
+
+(function(d) {
+  var wf = d.createElement('script'), s = d.scripts[0];
+  wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js';
+  s.parentNode.insertBefore(wf, s);
+})(document);

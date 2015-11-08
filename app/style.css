@@ -10,8 +10,7 @@ body .markdown-body {
 }
 
 .markdown-body {
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     color: #333;
     overflow: hidden;
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
@@ -42,7 +41,6 @@ body .markdown-body {
 }
 
 .markdown-body hr {
-    -moz-box-sizing: content-box;
     box-sizing: content-box;
     height: 0;
 }
@@ -190,11 +188,8 @@ body .markdown-body {
     line-height: 1;
     display: inline-block;
     text-decoration: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    font-smoothing: antialiased;
+    font-smoothing: grayscale;
     user-select: none;
 }
 
@@ -602,7 +597,6 @@ body .markdown-body {
 
 .markdown-body kbd {
     background-color: #e7e7e7;
-    background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
     background-image: linear-gradient(#fefefe, #e7e7e7);
     background-repeat: repeat-x;
     display: inline-block;
@@ -724,28 +718,6 @@ body .markdown-body {
     vertical-align: middle;
 }
 
-html, body {
-    margin: 0;
-    padding-left: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-}
-
-.code {
-    position: absolute;
-    height: 100%;
-    width: 50%;
-    font-family: monospace;
-    box-sizing: border-box;
-    padding: 2%;
-    border: none;
-    border-right: 1px rgba(0, 0, 0, 0.55) solid;
-    box-shadow: none;
-    outline: none;
-    font-size: 12pt;
-}
-
 .markdown-body {
     position: absolute;
     left: 50%;
@@ -754,86 +726,6 @@ html, body {
     overflow: auto;
     box-sizing: border-box;
 }
-
-textarea {
-    height: 100%;
-    width: 100%;
-}
-
-
-/* Scrolling theme */
-
-::-webkit-scrollbar {
-    height: 16px;
-    overflow: visible;
-    width: 16px
-}
-
-::-webkit-scrollbar-button {
-    height: 0;
-    width: 0
-}
-
-::-webkit-scrollbar-track {
-    background-clip: padding-box;
-    border: solid transparent;
-    border-width: 0 0 0 7px
-}
-
-::-webkit-scrollbar-track:hover {
-    background-color: rgba(0, 0, 0, .05);
-    box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1)
-}
-
-::-webkit-scrollbar-track:active {
-    background-color: rgba(0, 0, 0, .05);
-    box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px 0 0 rgba(0, 0, 0, .07)
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, .2);
-    background-clip: padding-box;
-    border: solid transparent;
-    border-width: 0 0 0 7px;
-    min-height: 28px;
-    padding: 100px 0 0;
-    box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07)
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, .4);
-    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .25)
-}
-
-::-webkit-scrollbar-thumb:active {
-    background-color: rgba(0, 0, 0, 0.5);
-    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.35)
-}
-
-::-webkit-scrollbar-corner {
-    background: transparent
-}
-
-body::-webkit-scrollbar-track-piece {
-    background-clip: padding-box;
-    background-color: #f5f5f5;
-    border: solid #fff;
-    border-width: 0 0 0 3px;
-    box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px 0 0 rgba(0, 0, 0, .07)
-}
-
-body::-webkit-scrollbar-thumb {
-    border-width: 1px 1px 1px 5px
-}
-
-body::-webkit-scrollbar-corner {
-    background-clip: padding-box;
-    background-color: #f5f5f5;
-    border: solid #fff;
-    border-width: 3px 0 0 3px;
-    box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .14)
-}
-
 
 /*======== END MARKDOWN CSS ===================*/
 
@@ -857,8 +749,7 @@ body::-webkit-scrollbar-corner {
     text-transform: none;
     line-height: 1;
     /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
 }
 
 .i-menu:before {
@@ -876,6 +767,7 @@ body::-webkit-scrollbar-corner {
 
 /*================ END ICOMOON FONT CSS ===============*/
 
+/*================== BEGIN CUSTOM CSSS ===================*/
 html, body {
     margin: 0;
     padding-left: 0;
@@ -888,7 +780,7 @@ html, body {
     position: absolute;
     height: 100%;
     width: 50%;
-    font-family: monospace;
+    font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
     box-sizing: border-box;
     padding: 2%;
     border: none;
@@ -896,6 +788,11 @@ html, body {
     box-shadow: none;
     outline: none;
     font-size: 12pt;
+    resize: none;
+}
+
+.wf-active .code{
+    font-family: 'source-code-pro';
 }
 
 .markdown-body {
@@ -905,11 +802,6 @@ html, body {
     width: 50%;
     overflow: auto;
     box-sizing: border-box;
-}
-
-textarea {
-    height: 100%;
-    width: 100%;
 }
 
 nav {
