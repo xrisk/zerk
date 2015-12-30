@@ -780,7 +780,7 @@ html, body {
     position: absolute;
     height: 100%;
     width: 50%;
-    font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+    font-family: 'Source Code Pro', 'Menlo' , 'Consolas', monospace;
     box-sizing: border-box;
     padding: 2%;
     border: none;
@@ -792,9 +792,6 @@ html, body {
     resize: none;
 }
 
-.wf-active .code{
-    font-family: 'source-code-pro';
-}
 
 .markdown-body {
     position: absolute;
