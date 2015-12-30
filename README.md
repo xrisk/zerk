@@ -5,6 +5,11 @@ A simple markdown REPL, nothing more.
 
 Fully in-browser with zero server-side processing.
 
+### Screenshot
+
+[![Zerk UI][3]][3]
+[3]: http://i.imgur.com/T3VTuwl.png
+
 ##### License
 
 MIT, with attribution required to [xrisk](https://github.com/xrisk).
