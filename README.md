@@ -1,17 +1,13 @@
-# zerk
-A simple markdown REPL, nothing more.
+# [zerk](https://xrisk.github.io/zerk)
+A minimalist markdown REPL, nothing more.
 
- > _Write ye markdown, see ye browser render it [live](https://zerk.herokuapp.com)._
+ > _Write ye markdown, see ye browser render it [live](https://xrisk.github.io/zerk/)._
 
-Fully in-browser with zero server-side processing.
+Fully live and in-browser with zero server-side processing.  
 
 [![Zerk UI][3]][3]
 [3]: http://i.imgur.com/T3VTuwl.png
 
-##### License
+> _Crafted by [xrisk](https://github.com/xrisk) & [onlineth](https://github.com/onlineth)._
 
-[MIT](LICENSE), with attribution required to [xrisk](https://github.com/xrisk) & [onlineth](https://github.com/onlineth).
 
-##### Contributors
-
-[xrisk](https://github.com/xrisk) & [onlineth](https://github.com/onlineth)
