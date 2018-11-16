@@ -5,8 +5,9 @@ A minimalist markdown REPL, nothing more.
 
 Fully live and in-browser with zero server-side processing.  
 
-[![Zerk UI][3]][3]
-[3]: http://i.imgur.com/59XMdw4.png
+![zerk screenshot][1]
+
+[1]: http://i.imgur.com/59XMdw4.png
 
 > _Crafted by [xrisk](https://github.com/xrisk) & [onlineth](https://github.com/onlineth)._
 
