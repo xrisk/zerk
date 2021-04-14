@@ -1,7 +1,7 @@
-# [zerk](https://xrisk.github.io/zerk)
+# [zerk](https://zerk.rishav.io/)
 A minimalist markdown REPL, nothing more.
 
- > _Write ye markdown, see ye browser render it [live](https://xrisk.github.io/zerk/)._
+ > _Write ye markdown, see ye browser render it [live](https://zerk.rishav.io/)._
 
 Fully live and in-browser with zero server-side processing.  
 
