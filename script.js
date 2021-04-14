@@ -1,1 +1,1088 @@
-(function(){function e(e){this.tokens=[],this.tokens.links={},this.options=e||a.defaults,this.rules=u.normal,this.options.gfm&&(this.options.tables?this.rules=u.tables:this.rules=u.gfm)}function t(e,t){if(this.options=t||a.defaults,this.links=e,this.rules=c.normal,this.renderer=this.options.renderer||new n,this.renderer.options=this.options,!this.links)throw new Error("Tokens array requires a `links` property.");this.options.gfm?this.options.breaks?this.rules=c.breaks:this.rules=c.gfm:this.options.pedantic&&(this.rules=c.pedantic)}function n(e){this.options=e||{}}function r(e){this.tokens=[],this.token=null,this.options=e||a.defaults,this.options.renderer=this.options.renderer||new n,this.renderer=this.options.renderer,this.renderer.options=this.options}function s(e,t){return e.replace(t?/&/g:/&(?!#?\w+;)/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function i(e){return e.replace(/&([#\w]+);/g,function(e,t){return t=t.toLowerCase(),"colon"===t?":":"#"===t.charAt(0)?"x"===t.charAt(1)?String.fromCharCode(parseInt(t.substring(2),16)):String.fromCharCode(+t.substring(1)):""})}function o(e,t){return e=e.source,t=t||"",function n(r,s){return r?(s=s.source||s,s=s.replace(/(^|[^\[])\^/g,"$1"),e=e.replace(r,s),n):new RegExp(e,t)}}function l(){}function h(e){for(var t,n,r=1;r<arguments.length;r++){t=arguments[r];for(n in t)Object.prototype.hasOwnProperty.call(t,n)&&(e[n]=t[n])}return e}function a(t,n,i){if(i||"function"==typeof n){i||(i=n,n=null),n=h({},a.defaults,n||{});var o,l,u=n.highlight,c=0;try{o=e.lex(t,n)}catch(p){return i(p)}l=o.length;var g=function(e){if(e)return n.highlight=u,i(e);var t;try{t=r.parse(o,n)}catch(s){e=s}return n.highlight=u,e?i(e):i(null,t)};if(!u||u.length<3)return g();if(delete n.highlight,!l)return g();for(;c<o.length;c++)!function(e){return"code"!==e.type?--l||g():u(e.text,e.lang,function(t,n){return t?g(t):null==n||n===e.text?--l||g():(e.text=n,e.escaped=!0,void(--l||g()))})}(o[c])}else try{return n&&(n=h({},a.defaults,n)),r.parse(e.lex(t,n),n)}catch(p){if(p.message+="\nPlease report this to https://github.com/chjj/marked.",(n||a.defaults).silent)return"<p>An error occured:</p><pre>"+s(p.message+"",!0)+"</pre>";throw p}}var u={newline:/^\n+/,code:/^( {4}[^\n]+\n*)+/,fences:l,hr:/^( *[-*_]){3,} *(?:\n+|$)/,heading:/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/,nptable:l,lheading:/^([^\n]+)\n *(=|-){2,} *(?:\n+|$)/,blockquote:/^( *>[^\n]+(\n(?!def)[^\n]+)*\n*)+/,list:/^( *)(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/,html:/^ *(?:comment *(?:\n|\s*$)|closed *(?:\n{2,}|\s*$)|closing *(?:\n{2,}|\s*$))/,def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +["(]([^\n]+)[")])? *(?:\n+|$)/,table:l,paragraph:/^((?:[^\n]+\n?(?!hr|heading|lheading|blockquote|tag|def))+)\n*/,text:/^[^\n]+/};u.bullet=/(?:[*+-]|\d+\.)/,u.item=/^( *)(bull) [^\n]*(?:\n(?!\1bull )[^\n]*)*/,u.item=o(u.item,"gm")(/bull/g,u.bullet)(),u.list=o(u.list)(/bull/g,u.bullet)("hr","\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))")("def","\\n+(?="+u.def.source+")")(),u.blockquote=o(u.blockquote)("def",u.def)(),u._tag="(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b",u.html=o(u.html)("comment",/<!--[\s\S]*?-->/)("closed",/<(tag)[\s\S]+?<\/\1>/)("closing",/<tag(?:"[^"]*"|'[^']*'|[^'">])*?>/)(/tag/g,u._tag)(),u.paragraph=o(u.paragraph)("hr",u.hr)("heading",u.heading)("lheading",u.lheading)("blockquote",u.blockquote)("tag","<"+u._tag)("def",u.def)(),u.normal=h({},u),u.gfm=h({},u.normal,{fences:/^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/,paragraph:/^/,heading:/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/}),u.gfm.paragraph=o(u.paragraph)("(?!","(?!"+u.gfm.fences.source.replace("\\1","\\2")+"|"+u.list.source.replace("\\1","\\3")+"|")(),u.tables=h({},u.gfm,{nptable:/^ *(\S.*\|.*)\n *([-:]+ *\|[-| :]*)\n((?:.*\|.*(?:\n|$))*)\n*/,table:/^ *\|(.+)\n *\|( *[-:]+[-| :]*)\n((?: *\|.*(?:\n|$))*)\n*/}),e.rules=u,e.lex=function(t,n){var r=new e(n);return r.lex(t)},e.prototype.lex=function(e){return e=e.replace(/\r\n|\r/g,"\n").replace(/\t/g,"    ").replace(/\u00a0/g," ").replace(/\u2424/g,"\n"),this.token(e,!0)},e.prototype.token=function(e,t,n){for(var r,s,i,o,l,h,a,c,p,e=e.replace(/^ +$/gm,"");e;)if((i=this.rules.newline.exec(e))&&(e=e.substring(i[0].length),i[0].length>1&&this.tokens.push({type:"space"})),i=this.rules.code.exec(e))e=e.substring(i[0].length),i=i[0].replace(/^ {4}/gm,""),this.tokens.push({type:"code",text:this.options.pedantic?i:i.replace(/\n+$/,"")});else if(i=this.rules.fences.exec(e))e=e.substring(i[0].length),this.tokens.push({type:"code",lang:i[2],text:i[3]||""});else if(i=this.rules.heading.exec(e))e=e.substring(i[0].length),this.tokens.push({type:"heading",depth:i[1].length,text:i[2]});else if(t&&(i=this.rules.nptable.exec(e))){for(e=e.substring(i[0].length),h={type:"table",header:i[1].replace(/^ *| *\| *$/g,"").split(/ *\| */),align:i[2].replace(/^ *|\| *$/g,"").split(/ *\| */),cells:i[3].replace(/\n$/,"").split("\n")},c=0;c<h.align.length;c++)/^ *-+: *$/.test(h.align[c])?h.align[c]="right":/^ *:-+: *$/.test(h.align[c])?h.align[c]="center":/^ *:-+ *$/.test(h.align[c])?h.align[c]="left":h.align[c]=null;for(c=0;c<h.cells.length;c++)h.cells[c]=h.cells[c].split(/ *\| */);this.tokens.push(h)}else if(i=this.rules.lheading.exec(e))e=e.substring(i[0].length),this.tokens.push({type:"heading",depth:"="===i[2]?1:2,text:i[1]});else if(i=this.rules.hr.exec(e))e=e.substring(i[0].length),this.tokens.push({type:"hr"});else if(i=this.rules.blockquote.exec(e))e=e.substring(i[0].length),this.tokens.push({type:"blockquote_start"}),i=i[0].replace(/^ *> ?/gm,""),this.token(i,t,!0),this.tokens.push({type:"blockquote_end"});else if(i=this.rules.list.exec(e)){for(e=e.substring(i[0].length),o=i[2],this.tokens.push({type:"list_start",ordered:o.length>1}),i=i[0].match(this.rules.item),r=!1,p=i.length,c=0;p>c;c++)h=i[c],a=h.length,h=h.replace(/^ *([*+-]|\d+\.) +/,""),~h.indexOf("\n ")&&(a-=h.length,h=this.options.pedantic?h.replace(/^ {1,4}/gm,""):h.replace(new RegExp("^ {1,"+a+"}","gm"),"")),this.options.smartLists&&c!==p-1&&(l=u.bullet.exec(i[c+1])[0],o===l||o.length>1&&l.length>1||(e=i.slice(c+1).join("\n")+e,c=p-1)),s=r||/\n\n(?!\s*$)/.test(h),c!==p-1&&(r="\n"===h.charAt(h.length-1),s||(s=r)),this.tokens.push({type:s?"loose_item_start":"list_item_start"}),this.token(h,!1,n),this.tokens.push({type:"list_item_end"});this.tokens.push({type:"list_end"})}else if(i=this.rules.html.exec(e))e=e.substring(i[0].length),this.tokens.push({type:this.options.sanitize?"paragraph":"html",pre:!this.options.sanitizer&&("pre"===i[1]||"script"===i[1]||"style"===i[1]),text:i[0]});else if(!n&&t&&(i=this.rules.def.exec(e)))e=e.substring(i[0].length),this.tokens.links[i[1].toLowerCase()]={href:i[2],title:i[3]};else if(t&&(i=this.rules.table.exec(e))){for(e=e.substring(i[0].length),h={type:"table",header:i[1].replace(/^ *| *\| *$/g,"").split(/ *\| */),align:i[2].replace(/^ *|\| *$/g,"").split(/ *\| */),cells:i[3].replace(/(?: *\| *)?\n$/,"").split("\n")},c=0;c<h.align.length;c++)/^ *-+: *$/.test(h.align[c])?h.align[c]="right":/^ *:-+: *$/.test(h.align[c])?h.align[c]="center":/^ *:-+ *$/.test(h.align[c])?h.align[c]="left":h.align[c]=null;for(c=0;c<h.cells.length;c++)h.cells[c]=h.cells[c].replace(/^ *\| *| *\| *$/g,"").split(/ *\| */);this.tokens.push(h)}else if(t&&(i=this.rules.paragraph.exec(e)))e=e.substring(i[0].length),this.tokens.push({type:"paragraph",text:"\n"===i[1].charAt(i[1].length-1)?i[1].slice(0,-1):i[1]});else if(i=this.rules.text.exec(e))e=e.substring(i[0].length),this.tokens.push({type:"text",text:i[0]});else if(e)throw new Error("Infinite loop on byte: "+e.charCodeAt(0));return this.tokens};var c={escape:/^\\([\\`*{}\[\]()#+\-.!_>])/,autolink:/^<([^ >]+(@|:\/)[^ >]+)>/,url:l,tag:/^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^'">])*?>/,link:/^!?\[(inside)\]\(href\)/,reflink:/^!?\[(inside)\]\s*\[([^\]]*)\]/,nolink:/^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,strong:/^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/,em:/^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,code:/^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,br:/^ {2,}\n(?!\s*$)/,del:l,text:/^[\s\S]+?(?=[\\<!\[_*`]| {2,}\n|$)/};c._inside=/(?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*/,c._href=/\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*/,c.link=o(c.link)("inside",c._inside)("href",c._href)(),c.reflink=o(c.reflink)("inside",c._inside)(),c.normal=h({},c),c.pedantic=h({},c.normal,{strong:/^__(?=\S)([\s\S]*?\S)__(?!_)|^\*\*(?=\S)([\s\S]*?\S)\*\*(?!\*)/,em:/^_(?=\S)([\s\S]*?\S)_(?!_)|^\*(?=\S)([\s\S]*?\S)\*(?!\*)/}),c.gfm=h({},c.normal,{escape:o(c.escape)("])","~|])")(),url:/^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/,del:/^~~(?=\S)([\s\S]*?\S)~~/,text:o(c.text)("]|","~]|")("|","|https?://|")()}),c.breaks=h({},c.gfm,{br:o(c.br)("{2,}","*")(),text:o(c.gfm.text)("{2,}","*")()}),t.rules=c,t.output=function(e,n,r){var s=new t(n,r);return s.output(e)},t.prototype.output=function(e){for(var t,n,r,i,o="";e;)if(i=this.rules.escape.exec(e))e=e.substring(i[0].length),o+=i[1];else if(i=this.rules.autolink.exec(e))e=e.substring(i[0].length),"@"===i[2]?(n=":"===i[1].charAt(6)?this.mangle(i[1].substring(7)):this.mangle(i[1]),r=this.mangle("mailto:")+n):(n=s(i[1]),r=n),o+=this.renderer.link(r,null,n);else if(this.inLink||!(i=this.rules.url.exec(e))){if(i=this.rules.tag.exec(e))!this.inLink&&/^<a /i.test(i[0])?this.inLink=!0:this.inLink&&/^<\/a>/i.test(i[0])&&(this.inLink=!1),e=e.substring(i[0].length),o+=this.options.sanitize?this.options.sanitizer?this.options.sanitizer(i[0]):s(i[0]):i[0];else if(i=this.rules.link.exec(e))e=e.substring(i[0].length),this.inLink=!0,o+=this.outputLink(i,{href:i[2],title:i[3]}),this.inLink=!1;else if((i=this.rules.reflink.exec(e))||(i=this.rules.nolink.exec(e))){if(e=e.substring(i[0].length),t=(i[2]||i[1]).replace(/\s+/g," "),t=this.links[t.toLowerCase()],!t||!t.href){o+=i[0].charAt(0),e=i[0].substring(1)+e;continue}this.inLink=!0,o+=this.outputLink(i,t),this.inLink=!1}else if(i=this.rules.strong.exec(e))e=e.substring(i[0].length),o+=this.renderer.strong(this.output(i[2]||i[1]));else if(i=this.rules.em.exec(e))e=e.substring(i[0].length),o+=this.renderer.em(this.output(i[2]||i[1]));else if(i=this.rules.code.exec(e))e=e.substring(i[0].length),o+=this.renderer.codespan(s(i[2],!0));else if(i=this.rules.br.exec(e))e=e.substring(i[0].length),o+=this.renderer.br();else if(i=this.rules.del.exec(e))e=e.substring(i[0].length),o+=this.renderer.del(this.output(i[1]));else if(i=this.rules.text.exec(e))e=e.substring(i[0].length),o+=this.renderer.text(s(this.smartypants(i[0])));else if(e)throw new Error("Infinite loop on byte: "+e.charCodeAt(0))}else e=e.substring(i[0].length),n=s(i[1]),r=n,o+=this.renderer.link(r,null,n);return o},t.prototype.outputLink=function(e,t){var n=s(t.href),r=t.title?s(t.title):null;return"!"!==e[0].charAt(0)?this.renderer.link(n,r,this.output(e[1])):this.renderer.image(n,r,s(e[1]))},t.prototype.smartypants=function(e){return this.options.smartypants?e.replace(/---/g,"—").replace(/--/g,"–").replace(/(^|[-\u2014\/(\[{"\s])'/g,"$1‘").replace(/'/g,"’").replace(/(^|[-\u2014\/(\[{\u2018\s])"/g,"$1“").replace(/"/g,"”").replace(/\.{3}/g,"…"):e},t.prototype.mangle=function(e){if(!this.options.mangle)return e;for(var t,n="",r=e.length,s=0;r>s;s++)t=e.charCodeAt(s),Math.random()>.5&&(t="x"+t.toString(16)),n+="&#"+t+";";return n},n.prototype.code=function(e,t,n){if(this.options.highlight){var r=this.options.highlight(e,t);null!=r&&r!==e&&(n=!0,e=r)}return t?'<pre><code class="'+this.options.langPrefix+s(t,!0)+'">'+(n?e:s(e,!0))+"\n</code></pre>\n":"<pre><code>"+(n?e:s(e,!0))+"\n</code></pre>"},n.prototype.blockquote=function(e){return"<blockquote>\n"+e+"</blockquote>\n"},n.prototype.html=function(e){return e},n.prototype.heading=function(e,t,n){return"<h"+t+' id="'+this.options.headerPrefix+n.toLowerCase().replace(/[^\w]+/g,"-")+'">'+e+"</h"+t+">\n"},n.prototype.hr=function(){return this.options.xhtml?"<hr/>\n":"<hr>\n"},n.prototype.list=function(e,t){var n=t?"ol":"ul";return"<"+n+">\n"+e+"</"+n+">\n"},n.prototype.listitem=function(e){return"<li>"+e+"</li>\n"},n.prototype.paragraph=function(e){return"<p>"+e+"</p>\n"},n.prototype.table=function(e,t){return"<table>\n<thead>\n"+e+"</thead>\n<tbody>\n"+t+"</tbody>\n</table>\n"},n.prototype.tablerow=function(e){return"<tr>\n"+e+"</tr>\n"},n.prototype.tablecell=function(e,t){var n=t.header?"th":"td",r=t.align?"<"+n+' style="text-align:'+t.align+'">':"<"+n+">";return r+e+"</"+n+">\n"},n.prototype.strong=function(e){return"<strong>"+e+"</strong>"},n.prototype.em=function(e){return"<em>"+e+"</em>"},n.prototype.codespan=function(e){return"<code>"+e+"</code>"},n.prototype.br=function(){return this.options.xhtml?"<br/>":"<br>"},n.prototype.del=function(e){return"<del>"+e+"</del>"},n.prototype.link=function(e,t,n){if(this.options.sanitize){try{var r=decodeURIComponent(i(e)).replace(/[^\w:]/g,"").toLowerCase()}catch(s){return""}if(0===r.indexOf("javascript:")||0===r.indexOf("vbscript:"))return""}var o='<a href="'+e+'"';return t&&(o+=' title="'+t+'"'),o+=">"+n+"</a>"},n.prototype.image=function(e,t,n){var r='<img src="'+e+'" alt="'+n+'"';return t&&(r+=' title="'+t+'"'),r+=this.options.xhtml?"/>":">"},n.prototype.text=function(e){return e},r.parse=function(e,t,n){var s=new r(t,n);return s.parse(e)},r.prototype.parse=function(e){this.inline=new t(e.links,this.options,this.renderer),this.tokens=e.reverse();for(var n="";this.next();)n+=this.tok();return n},r.prototype.next=function(){return this.token=this.tokens.pop()},r.prototype.peek=function(){return this.tokens[this.tokens.length-1]||0},r.prototype.parseText=function(){for(var e=this.token.text;"text"===this.peek().type;)e+="\n"+this.next().text;return this.inline.output(e)},r.prototype.tok=function(){switch(this.token.type){case"space":return"";case"hr":return this.renderer.hr();case"heading":return this.renderer.heading(this.inline.output(this.token.text),this.token.depth,this.token.text);case"code":return this.renderer.code(this.token.text,this.token.lang,this.token.escaped);case"table":var e,t,n,r,s,i="",o="";for(n="",e=0;e<this.token.header.length;e++)r={header:!0,align:this.token.align[e]},n+=this.renderer.tablecell(this.inline.output(this.token.header[e]),{header:!0,align:this.token.align[e]});for(i+=this.renderer.tablerow(n),e=0;e<this.token.cells.length;e++){for(t=this.token.cells[e],n="",s=0;s<t.length;s++)n+=this.renderer.tablecell(this.inline.output(t[s]),{header:!1,align:this.token.align[s]});o+=this.renderer.tablerow(n)}return this.renderer.table(i,o);case"blockquote_start":for(var o="";"blockquote_end"!==this.next().type;)o+=this.tok();return this.renderer.blockquote(o);case"list_start":for(var o="",l=this.token.ordered;"list_end"!==this.next().type;)o+=this.tok();return this.renderer.list(o,l);case"list_item_start":for(var o="";"list_item_end"!==this.next().type;)o+="text"===this.token.type?this.parseText():this.tok();return this.renderer.listitem(o);case"loose_item_start":for(var o="";"list_item_end"!==this.next().type;)o+=this.tok();return this.renderer.listitem(o);case"html":var h=this.token.pre||this.options.pedantic?this.token.text:this.inline.output(this.token.text);return this.renderer.html(h);case"paragraph":return this.renderer.paragraph(this.inline.output(this.token.text));case"text":return this.renderer.paragraph(this.parseText())}},l.exec=l,a.options=a.setOptions=function(e){return h(a.defaults,e),a},a.defaults={gfm:!0,tables:!0,breaks:!1,pedantic:!1,sanitize:!1,sanitizer:null,mangle:!0,smartLists:!1,silent:!1,highlight:null,langPrefix:"lang-",smartypants:!1,headerPrefix:"",renderer:new n,xhtml:!1},a.Parser=r,a.parser=r.parse,a.Renderer=n,a.Lexer=e,a.lexer=e.lex,a.InlineLexer=t,a.inlineLexer=t.output,a.parse=a,"undefined"!=typeof module&&"object"==typeof exports?module.exports=a:"function"==typeof define&&define.amd?define(function(){return a}):this.marked=a}).call(function(){return this||("undefined"!=typeof window?window:global)}());var codeBlock=document.querySelector("textarea"),render=document.querySelector("article");codeBlock.onkeyup=function(e){render.innerHTML=marked(codeBlock.value)},bindInput=function(){codeBlock.onscroll=function(){var e=codeBlock.scrollHeight-codeBlock.clientHeight,t=codeBlock.scrollTop,n=t/e,r=render.scrollHeight-render.clientHeight,s=r*n;render.onscroll=void 0,render.scrollTop=parseInt(s),render.onscroll=bindOutput}},bindOutput=function(){render.onscroll=function(){var e=render.scrollHeight-render.clientHeight,t=render.scrollTop,n=t/e,r=codeBlock.scrollHeight-codeBlock.clientHeight,s=r*n;codeBlock.onscroll=void 0,codeBlock.scrollTop=parseInt(s),codeBlock.onscroll=bindInput}},bindInput(),bindOutput(),document.querySelector(".i-share").onclick=function(){if(""===codeBlock.value)return document.querySelector(".share-link").innerText="Need something to share ... ",void window.setTimeout(function(){document.querySelector(".share-link").innerText=""},3e4);var e=new XMLHttpRequest,t={description:"Made with zerk.",files:{"markdown.md":{content:codeBlock.value}}};e.onreadystatechange=function(){4===e.readyState&&(null!=e.response?(link=document.querySelector(".share-link"),window.clearTimeout(),link.href=e.response.html_url,link.innerText=e.response.html_url,link.target="_blank",link.style.color="rgba(0, 0, 0, 0.6)",setTimeout(function(){link.style.color=""},6e4)):(window.clearTimeout(),document.querySelector(".share-link").innerText="An error occured ... "))},e.open("post","https://api.github.com/gists"),e.responseType="json",document.querySelector(".share-link").innerText="Please wait ... ",e.send(JSON.stringify(t))},-1==navigator.userAgent.indexOf("Mac OS X")&&document.body.classList.add("non-mac"),codeBlock.placeholder="# Hi! \nThis is a markdown REPL. \nGo ahead, type in some awesomeness.";
+/**
+ * marked - a markdown parser
+ * Copyright (c) 2011-2014, Christopher Jeffrey. (MIT Licensed)
+ * https://github.com/chjj/marked
+ */
+;
+(function() {
+    /**
+     * Block-Level Grammar
+     */
+    var block = {
+        newline: /^\n+/,
+        code: /^( {4}[^\n]+\n*)+/,
+        fences: noop,
+        hr: /^( *[-*_]){3,} *(?:\n+|$)/,
+        heading: /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/,
+        nptable: noop,
+        lheading: /^([^\n]+)\n *(=|-){2,} *(?:\n+|$)/,
+        blockquote: /^( *>[^\n]+(\n(?!def)[^\n]+)*\n*)+/,
+        list: /^( *)(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/,
+        html: /^ *(?:comment *(?:\n|\s*$)|closed *(?:\n{2,}|\s*$)|closing *(?:\n{2,}|\s*$))/,
+        def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +["(]([^\n]+)[")])? *(?:\n+|$)/,
+        table: noop,
+        paragraph: /^((?:[^\n]+\n?(?!hr|heading|lheading|blockquote|tag|def))+)\n*/,
+        text: /^[^\n]+/
+    };
+    block.bullet = /(?:[*+-]|\d+\.)/;
+    block.item = /^( *)(bull) [^\n]*(?:\n(?!\1bull )[^\n]*)*/;
+    block.item = replace(block.item, 'gm')
+        (/bull/g, block.bullet)
+        ();
+    block.list = replace(block.list)
+        (/bull/g, block.bullet)
+        ('hr', '\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))')
+        ('def', '\\n+(?=' + block.def.source + ')')
+        ();
+    block.blockquote = replace(block.blockquote)
+        ('def', block.def)
+        ();
+    block._tag = '(?!(?:' + 'a|em|strong|small|s|cite|q|dfn|abbr|data|time|code' + '|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo' + '|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b';
+    block.html = replace(block.html)
+        ('comment', /<!--[\s\S]*?-->/)
+        ('closed', /<(tag)[\s\S]+?<\/\1>/)
+        ('closing', /<tag(?:"[^"]*"|'[^']*'|[^'">])*?>/)
+        (/tag/g, block._tag)
+        ();
+    block.paragraph = replace(block.paragraph)
+        ('hr', block.hr)
+        ('heading', block.heading)
+        ('lheading', block.lheading)
+        ('blockquote', block.blockquote)
+        ('tag', '<' + block._tag)
+        ('def', block.def)
+        ();
+    /**
+     * Normal Block Grammar
+     */
+    block.normal = merge({}, block);
+    /**
+     * GFM Block Grammar
+     */
+    block.gfm = merge({}, block.normal, {
+        fences: /^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/,
+        paragraph: /^/,
+        heading: /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/
+    });
+    block.gfm.paragraph = replace(block.paragraph)
+        ('(?!', '(?!' + block.gfm.fences.source.replace('\\1', '\\2') + '|' + block.list.source.replace('\\1', '\\3') + '|')
+        ();
+    /**
+     * GFM + Tables Block Grammar
+     */
+    block.tables = merge({}, block.gfm, {
+        nptable: /^ *(\S.*\|.*)\n *([-:]+ *\|[-| :]*)\n((?:.*\|.*(?:\n|$))*)\n*/,
+        table: /^ *\|(.+)\n *\|( *[-:]+[-| :]*)\n((?: *\|.*(?:\n|$))*)\n*/
+    });
+    /**
+     * Block Lexer
+     */
+    function Lexer(options) {
+        this.tokens = [];
+        this.tokens.links = {};
+        this.options = options || marked.defaults;
+        this.rules = block.normal;
+        if (this.options.gfm) {
+            if (this.options.tables) {
+                this.rules = block.tables;
+            } else {
+                this.rules = block.gfm;
+            }
+        }
+    }
+    /**
+     * Expose Block Rules
+     */
+    Lexer.rules = block;
+    /**
+     * Static Lex Method
+     */
+    Lexer.lex = function(src, options) {
+        var lexer = new Lexer(options);
+        return lexer.lex(src);
+    };
+    /**
+     * Preprocessing
+     */
+    Lexer.prototype.lex = function(src) {
+        src = src.replace(/\r\n|\r/g, '\n').replace(/\t/g, '    ').replace(/\u00a0/g, ' ').replace(/\u2424/g, '\n');
+        return this.token(src, true);
+    };
+    /**
+     * Lexing
+     */
+    Lexer.prototype.token = function(src, top, bq) {
+        var src = src.replace(/^ +$/gm, ''),
+            next, loose, cap, bull, b, item, space, i, l;
+        while (src) {
+            // newline
+            if (cap = this.rules.newline.exec(src)) {
+                src = src.substring(cap[0].length);
+                if (cap[0].length > 1) {
+                    this.tokens.push({
+                        type: 'space'
+                    });
+                }
+            }
+            // code
+            if (cap = this.rules.code.exec(src)) {
+                src = src.substring(cap[0].length);
+                cap = cap[0].replace(/^ {4}/gm, '');
+                this.tokens.push({
+                    type: 'code',
+                    text: !this.options.pedantic ? cap.replace(/\n+$/, '') : cap
+                });
+                continue;
+            }
+            // fences (gfm)
+            if (cap = this.rules.fences.exec(src)) {
+                src = src.substring(cap[0].length);
+                this.tokens.push({
+                    type: 'code',
+                    lang: cap[2],
+                    text: cap[3] || ''
+                });
+                continue;
+            }
+            // heading
+            if (cap = this.rules.heading.exec(src)) {
+                src = src.substring(cap[0].length);
+                this.tokens.push({
+                    type: 'heading',
+                    depth: cap[1].length,
+                    text: cap[2]
+                });
+                continue;
+            }
+            // table no leading pipe (gfm)
+            if (top && (cap = this.rules.nptable.exec(src))) {
+                src = src.substring(cap[0].length);
+                item = {
+                    type: 'table',
+                    header: cap[1].replace(/^ *| *\| *$/g, '').split(/ *\| */),
+                    align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
+                    cells: cap[3].replace(/\n$/, '').split('\n')
+                };
+                for (i = 0; i < item.align.length; i++) {
+                    if (/^ *-+: *$/.test(item.align[i])) {
+                        item.align[i] = 'right';
+                    } else if (/^ *:-+: *$/.test(item.align[i])) {
+                        item.align[i] = 'center';
+                    } else if (/^ *:-+ *$/.test(item.align[i])) {
+                        item.align[i] = 'left';
+                    } else {
+                        item.align[i] = null;
+                    }
+                }
+                for (i = 0; i < item.cells.length; i++) {
+                    item.cells[i] = item.cells[i].split(/ *\| */);
+                }
+                this.tokens.push(item);
+                continue;
+            }
+            // lheading
+            if (cap = this.rules.lheading.exec(src)) {
+                src = src.substring(cap[0].length);
+                this.tokens.push({
+                    type: 'heading',
+                    depth: cap[2] === '=' ? 1 : 2,
+                    text: cap[1]
+                });
+                continue;
+            }
+            // hr
+            if (cap = this.rules.hr.exec(src)) {
+                src = src.substring(cap[0].length);
+                this.tokens.push({
+                    type: 'hr'
+                });
+                continue;
+            }
+            // blockquote
+            if (cap = this.rules.blockquote.exec(src)) {
+                src = src.substring(cap[0].length);
+                this.tokens.push({
+                    type: 'blockquote_start'
+                });
+                cap = cap[0].replace(/^ *> ?/gm, '');
+                // Pass `top` to keep the current
+                // "toplevel" state. This is exactly
+                // how markdown.pl works.
+                this.token(cap, top, true);
+                this.tokens.push({
+                    type: 'blockquote_end'
+                });
+                continue;
+            }
+            // list
+            if (cap = this.rules.list.exec(src)) {
+                src = src.substring(cap[0].length);
+                bull = cap[2];
+                this.tokens.push({
+                    type: 'list_start',
+                    ordered: bull.length > 1
+                });
+                // Get each top-level item.
+                cap = cap[0].match(this.rules.item);
+                next = false;
+                l = cap.length;
+                i = 0;
+                for (; i < l; i++) {
+                    item = cap[i];
+                    // Remove the list item's bullet
+                    // so it is seen as the next token.
+                    space = item.length;
+                    item = item.replace(/^ *([*+-]|\d+\.) +/, '');
+                    // Outdent whatever the
+                    // list item contains. Hacky.
+                    if (~item.indexOf('\n ')) {
+                        space -= item.length;
+                        item = !this.options.pedantic ? item.replace(new RegExp('^ {1,' + space + '}', 'gm'), '') : item.replace(/^ {1,4}/gm, '');
+                    }
+                    // Determine whether the next list item belongs here.
+                    // Backpedal if it does not belong in this list.
+                    if (this.options.smartLists && i !== l - 1) {
+                        b = block.bullet.exec(cap[i + 1])[0];
+                        if (bull !== b && !(bull.length > 1 && b.length > 1)) {
+                            src = cap.slice(i + 1).join('\n') + src;
+                            i = l - 1;
+                        }
+                    }
+                    // Determine whether item is loose or not.
+                    // Use: /(^|\n)(?! )[^\n]+\n\n(?!\s*$)/
+                    // for discount behavior.
+                    loose = next || /\n\n(?!\s*$)/.test(item);
+                    if (i !== l - 1) {
+                        next = item.charAt(item.length - 1) === '\n';
+                        if (!loose) loose = next;
+                    }
+                    this.tokens.push({
+                        type: loose ? 'loose_item_start' : 'list_item_start'
+                    });
+                    // Recurse.
+                    this.token(item, false, bq);
+                    this.tokens.push({
+                        type: 'list_item_end'
+                    });
+                }
+                this.tokens.push({
+                    type: 'list_end'
+                });
+                continue;
+            }
+            // html
+            if (cap = this.rules.html.exec(src)) {
+                src = src.substring(cap[0].length);
+                this.tokens.push({
+                    type: this.options.sanitize ? 'paragraph' : 'html',
+                    pre: !this.options.sanitizer && (cap[1] === 'pre' || cap[1] === 'script' || cap[1] === 'style'),
+                    text: cap[0]
+                });
+                continue;
+            }
+            // def
+            if ((!bq && top) && (cap = this.rules.def.exec(src))) {
+                src = src.substring(cap[0].length);
+                this.tokens.links[cap[1].toLowerCase()] = {
+                    href: cap[2],
+                    title: cap[3]
+                };
+                continue;
+            }
+            // table (gfm)
+            if (top && (cap = this.rules.table.exec(src))) {
+                src = src.substring(cap[0].length);
+                item = {
+                    type: 'table',
+                    header: cap[1].replace(/^ *| *\| *$/g, '').split(/ *\| */),
+                    align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
+                    cells: cap[3].replace(/(?: *\| *)?\n$/, '').split('\n')
+                };
+                for (i = 0; i < item.align.length; i++) {
+                    if (/^ *-+: *$/.test(item.align[i])) {
+                        item.align[i] = 'right';
+                    } else if (/^ *:-+: *$/.test(item.align[i])) {
+                        item.align[i] = 'center';
+                    } else if (/^ *:-+ *$/.test(item.align[i])) {
+                        item.align[i] = 'left';
+                    } else {
+                        item.align[i] = null;
+                    }
+                }
+                for (i = 0; i < item.cells.length; i++) {
+                    item.cells[i] = item.cells[i].replace(/^ *\| *| *\| *$/g, '').split(/ *\| */);
+                }
+                this.tokens.push(item);
+                continue;
+            }
+            // top-level paragraph
+            if (top && (cap = this.rules.paragraph.exec(src))) {
+                src = src.substring(cap[0].length);
+                this.tokens.push({
+                    type: 'paragraph',
+                    text: cap[1].charAt(cap[1].length - 1) === '\n' ? cap[1].slice(0, -1) : cap[1]
+                });
+                continue;
+            }
+            // text
+            if (cap = this.rules.text.exec(src)) {
+                // Top-level should never reach here.
+                src = src.substring(cap[0].length);
+                this.tokens.push({
+                    type: 'text',
+                    text: cap[0]
+                });
+                continue;
+            }
+            if (src) {
+                throw new
+                Error('Infinite loop on byte: ' + src.charCodeAt(0));
+            }
+        }
+        return this.tokens;
+    };
+    /**
+     * Inline-Level Grammar
+     */
+    var inline = {
+        escape: /^\\([\\`*{}\[\]()#+\-.!_>])/,
+        autolink: /^<([^ >]+(@|:\/)[^ >]+)>/,
+        url: noop,
+        tag: /^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^'">])*?>/,
+        link: /^!?\[(inside)\]\(href\)/,
+        reflink: /^!?\[(inside)\]\s*\[([^\]]*)\]/,
+        nolink: /^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,
+        strong: /^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/,
+        em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
+        code: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
+        br: /^ {2,}\n(?!\s*$)/,
+        del: noop,
+        text: /^[\s\S]+?(?=[\\<!\[_*`]| {2,}\n|$)/
+    };
+    inline._inside = /(?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*/;
+    inline._href = /\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*/;
+    inline.link = replace(inline.link)
+        ('inside', inline._inside)
+        ('href', inline._href)
+        ();
+    inline.reflink = replace(inline.reflink)
+        ('inside', inline._inside)
+        ();
+    /**
+     * Normal Inline Grammar
+     */
+    inline.normal = merge({}, inline);
+    /**
+     * Pedantic Inline Grammar
+     */
+    inline.pedantic = merge({}, inline.normal, {
+        strong: /^__(?=\S)([\s\S]*?\S)__(?!_)|^\*\*(?=\S)([\s\S]*?\S)\*\*(?!\*)/,
+        em: /^_(?=\S)([\s\S]*?\S)_(?!_)|^\*(?=\S)([\s\S]*?\S)\*(?!\*)/
+    });
+    /**
+     * GFM Inline Grammar
+     */
+    inline.gfm = merge({}, inline.normal, {
+        escape: replace(inline.escape)('])', '~|])')(),
+        url: /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/,
+        del: /^~~(?=\S)([\s\S]*?\S)~~/,
+        text: replace(inline.text)
+            (']|', '~]|')
+            ('|', '|https?://|')
+            ()
+    });
+    /**
+     * GFM + Line Breaks Inline Grammar
+     */
+    inline.breaks = merge({}, inline.gfm, {
+        br: replace(inline.br)('{2,}', '*')(),
+        text: replace(inline.gfm.text)('{2,}', '*')()
+    });
+    /**
+     * Inline Lexer & Compiler
+     */
+    function InlineLexer(links, options) {
+        this.options = options || marked.defaults;
+        this.links = links;
+        this.rules = inline.normal;
+        this.renderer = this.options.renderer || new Renderer;
+        this.renderer.options = this.options;
+        if (!this.links) {
+            throw new
+            Error('Tokens array requires a `links` property.');
+        }
+        if (this.options.gfm) {
+            if (this.options.breaks) {
+                this.rules = inline.breaks;
+            } else {
+                this.rules = inline.gfm;
+            }
+        } else if (this.options.pedantic) {
+            this.rules = inline.pedantic;
+        }
+    }
+    /**
+     * Expose Inline Rules
+     */
+    InlineLexer.rules = inline;
+    /**
+     * Static Lexing/Compiling Method
+     */
+    InlineLexer.output = function(src, links, options) {
+        var inline = new InlineLexer(links, options);
+        return inline.output(src);
+    };
+    /**
+     * Lexing/Compiling
+     */
+    InlineLexer.prototype.output = function(src) {
+        var out = '',
+            link, text, href, cap;
+        while (src) {
+            // escape
+            if (cap = this.rules.escape.exec(src)) {
+                src = src.substring(cap[0].length);
+                out += cap[1];
+                continue;
+            }
+            // autolink
+            if (cap = this.rules.autolink.exec(src)) {
+                src = src.substring(cap[0].length);
+                if (cap[2] === '@') {
+                    text = cap[1].charAt(6) === ':' ? this.mangle(cap[1].substring(7)) : this.mangle(cap[1]);
+                    href = this.mangle('mailto:') + text;
+                } else {
+                    text = escape(cap[1]);
+                    href = text;
+                }
+                out += this.renderer.link(href, null, text);
+                continue;
+            }
+            // url (gfm)
+            if (!this.inLink && (cap = this.rules.url.exec(src))) {
+                src = src.substring(cap[0].length);
+                text = escape(cap[1]);
+                href = text;
+                out += this.renderer.link(href, null, text);
+                continue;
+            }
+            // tag
+            if (cap = this.rules.tag.exec(src)) {
+                if (!this.inLink && /^<a /i.test(cap[0])) {
+                    this.inLink = true;
+                } else if (this.inLink && /^<\/a>/i.test(cap[0])) {
+                    this.inLink = false;
+                }
+                src = src.substring(cap[0].length);
+                out += this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape(cap[0]) : cap[0]
+                continue;
+            }
+            // link
+            if (cap = this.rules.link.exec(src)) {
+                src = src.substring(cap[0].length);
+                this.inLink = true;
+                out += this.outputLink(cap, {
+                    href: cap[2],
+                    title: cap[3]
+                });
+                this.inLink = false;
+                continue;
+            }
+            // reflink, nolink
+            if ((cap = this.rules.reflink.exec(src)) || (cap = this.rules.nolink.exec(src))) {
+                src = src.substring(cap[0].length);
+                link = (cap[2] || cap[1]).replace(/\s+/g, ' ');
+                link = this.links[link.toLowerCase()];
+                if (!link || !link.href) {
+                    out += cap[0].charAt(0);
+                    src = cap[0].substring(1) + src;
+                    continue;
+                }
+                this.inLink = true;
+                out += this.outputLink(cap, link);
+                this.inLink = false;
+                continue;
+            }
+            // strong
+            if (cap = this.rules.strong.exec(src)) {
+                src = src.substring(cap[0].length);
+                out += this.renderer.strong(this.output(cap[2] || cap[1]));
+                continue;
+            }
+            // em
+            if (cap = this.rules.em.exec(src)) {
+                src = src.substring(cap[0].length);
+                out += this.renderer.em(this.output(cap[2] || cap[1]));
+                continue;
+            }
+            // code
+            if (cap = this.rules.code.exec(src)) {
+                src = src.substring(cap[0].length);
+                out += this.renderer.codespan(escape(cap[2], true));
+                continue;
+            }
+            // br
+            if (cap = this.rules.br.exec(src)) {
+                src = src.substring(cap[0].length);
+                out += this.renderer.br();
+                continue;
+            }
+            // del (gfm)
+            if (cap = this.rules.del.exec(src)) {
+                src = src.substring(cap[0].length);
+                out += this.renderer.del(this.output(cap[1]));
+                continue;
+            }
+            // text
+            if (cap = this.rules.text.exec(src)) {
+                src = src.substring(cap[0].length);
+                out += this.renderer.text(escape(this.smartypants(cap[0])));
+                continue;
+            }
+            if (src) {
+                throw new
+                Error('Infinite loop on byte: ' + src.charCodeAt(0));
+            }
+        }
+        return out;
+    };
+    /**
+     * Compile Link
+     */
+    InlineLexer.prototype.outputLink = function(cap, link) {
+        var href = escape(link.href),
+            title = link.title ? escape(link.title) : null;
+        return cap[0].charAt(0) !== '!' ? this.renderer.link(href, title, this.output(cap[1])) : this.renderer.image(href, title, escape(cap[1]));
+    };
+    /**
+     * Smartypants Transformations
+     */
+    InlineLexer.prototype.smartypants = function(text) {
+        if (!this.options.smartypants) return text;
+        return text
+            // em-dashes
+            .replace(/---/g, '\u2014')
+            // en-dashes
+            .replace(/--/g, '\u2013')
+            // opening singles
+            .replace(/(^|[-\u2014/(\[{"\s])'/g, '$1\u2018')
+            // closing singles & apostrophes
+            .replace(/'/g, '\u2019')
+            // opening doubles
+            .replace(/(^|[-\u2014/(\[{\u2018\s])"/g, '$1\u201c')
+            // closing doubles
+            .replace(/"/g, '\u201d')
+            // ellipses
+            .replace(/\.{3}/g, '\u2026');
+    };
+    /**
+     * Mangle Links
+     */
+    InlineLexer.prototype.mangle = function(text) {
+        if (!this.options.mangle) return text;
+        var out = '',
+            l = text.length,
+            i = 0,
+            ch;
+        for (; i < l; i++) {
+            ch = text.charCodeAt(i);
+            if (Math.random() > 0.5) {
+                ch = 'x' + ch.toString(16);
+            }
+            out += '&#' + ch + ';';
+        }
+        return out;
+    };
+    /**
+     * Renderer
+     */
+    function Renderer(options) {
+        this.options = options || {};
+    }
+    Renderer.prototype.code = function(code, lang, escaped) {
+        if (this.options.highlight) {
+            var out = this.options.highlight(code, lang);
+            if (out != null && out !== code) {
+                escaped = true;
+                code = out;
+            }
+        }
+        if (!lang) {
+            return '<pre><code>' + (escaped ? code : escape(code, true)) + '\n</code></pre>';
+        }
+        return '<pre><code class="' + this.options.langPrefix + escape(lang, true) + '">' + (escaped ? code : escape(code, true)) + '\n</code></pre>\n';
+    };
+    Renderer.prototype.blockquote = function(quote) {
+        return '<blockquote>\n' + quote + '</blockquote>\n';
+    };
+    Renderer.prototype.html = function(html) {
+        return html;
+    };
+    Renderer.prototype.heading = function(text, level, raw) {
+        return '<h' + level + ' id="' + this.options.headerPrefix + raw.toLowerCase().replace(/[^\w]+/g, '-') + '">' + text + '</h' + level + '>\n';
+    };
+    Renderer.prototype.hr = function() {
+        return this.options.xhtml ? '<hr/>\n' : '<hr>\n';
+    };
+    Renderer.prototype.list = function(body, ordered) {
+        var type = ordered ? 'ol' : 'ul';
+        return '<' + type + '>\n' + body + '</' + type + '>\n';
+    };
+    Renderer.prototype.listitem = function(text) {
+        return '<li>' + text + '</li>\n';
+    };
+    Renderer.prototype.paragraph = function(text) {
+        return '<p>' + text + '</p>\n';
+    };
+    Renderer.prototype.table = function(header, body) {
+        return '<table>\n' + '<thead>\n' + header + '</thead>\n' + '<tbody>\n' + body + '</tbody>\n' + '</table>\n';
+    };
+    Renderer.prototype.tablerow = function(content) {
+        return '<tr>\n' + content + '</tr>\n';
+    };
+    Renderer.prototype.tablecell = function(content, flags) {
+        var type = flags.header ? 'th' : 'td';
+        var tag = flags.align ? '<' + type + ' style="text-align:' + flags.align + '">' : '<' + type + '>';
+        return tag + content + '</' + type + '>\n';
+    };
+    // span level renderer
+    Renderer.prototype.strong = function(text) {
+        return '<strong>' + text + '</strong>';
+    };
+    Renderer.prototype.em = function(text) {
+        return '<em>' + text + '</em>';
+    };
+    Renderer.prototype.codespan = function(text) {
+        return '<code>' + text + '</code>';
+    };
+    Renderer.prototype.br = function() {
+        return this.options.xhtml ? '<br/>' : '<br>';
+    };
+    Renderer.prototype.del = function(text) {
+        return '<del>' + text + '</del>';
+    };
+    Renderer.prototype.link = function(href, title, text) {
+        if (this.options.sanitize) {
+            try {
+                var prot = decodeURIComponent(unescape(href)).replace(/[^\w:]/g, '').toLowerCase();
+            } catch (e) {
+                return '';
+            }
+            if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0) {
+                return '';
+            }
+        }
+        var out = '<a href="' + href + '"';
+        if (title) {
+            out += ' title="' + title + '"';
+        }
+        out += '>' + text + '</a>';
+        return out;
+    };
+    Renderer.prototype.image = function(href, title, text) {
+        var out = '<img src="' + href + '" alt="' + text + '"';
+        if (title) {
+            out += ' title="' + title + '"';
+        }
+        out += this.options.xhtml ? '/>' : '>';
+        return out;
+    };
+    Renderer.prototype.text = function(text) {
+        return text;
+    };
+    /**
+     * Parsing & Compiling
+     */
+    function Parser(options) {
+        this.tokens = [];
+        this.token = null;
+        this.options = options || marked.defaults;
+        this.options.renderer = this.options.renderer || new Renderer;
+        this.renderer = this.options.renderer;
+        this.renderer.options = this.options;
+    }
+    /**
+     * Static Parse Method
+     */
+    Parser.parse = function(src, options, renderer) {
+        var parser = new Parser(options, renderer);
+        return parser.parse(src);
+    };
+    /**
+     * Parse Loop
+     */
+    Parser.prototype.parse = function(src) {
+        this.inline = new InlineLexer(src.links, this.options, this.renderer);
+        this.tokens = src.reverse();
+        var out = '';
+        while (this.next()) {
+            out += this.tok();
+        }
+        return out;
+    };
+    /**
+     * Next Token
+     */
+    Parser.prototype.next = function() {
+        return this.token = this.tokens.pop();
+    };
+    /**
+     * Preview Next Token
+     */
+    Parser.prototype.peek = function() {
+        return this.tokens[this.tokens.length - 1] || 0;
+    };
+    /**
+     * Parse Text Tokens
+     */
+    Parser.prototype.parseText = function() {
+        var body = this.token.text;
+        while (this.peek().type === 'text') {
+            body += '\n' + this.next().text;
+        }
+        return this.inline.output(body);
+    };
+    /**
+     * Parse Current Token
+     */
+    Parser.prototype.tok = function() {
+        switch (this.token.type) {
+            case 'space':
+                {
+                    return '';
+                }
+            case 'hr':
+                {
+                    return this.renderer.hr();
+                }
+            case 'heading':
+                {
+                    return this.renderer.heading(this.inline.output(this.token.text), this.token.depth, this.token.text);
+                }
+            case 'code':
+                {
+                    return this.renderer.code(this.token.text, this.token.lang, this.token.escaped);
+                }
+            case 'table':
+                {
+                    var header = '',
+                        body = '',
+                        i, row, cell, flags, j;
+                    // header
+                    cell = '';
+                    for (i = 0; i < this.token.header.length; i++) {
+                        flags = {
+                            header: true,
+                            align: this.token.align[i]
+                        };
+                        cell += this.renderer.tablecell(this.inline.output(this.token.header[i]), {
+                            header: true,
+                            align: this.token.align[i]
+                        });
+                    }
+                    header += this.renderer.tablerow(cell);
+                    for (i = 0; i < this.token.cells.length; i++) {
+                        row = this.token.cells[i];
+                        cell = '';
+                        for (j = 0; j < row.length; j++) {
+                            cell += this.renderer.tablecell(this.inline.output(row[j]), {
+                                header: false,
+                                align: this.token.align[j]
+                            });
+                        }
+                        body += this.renderer.tablerow(cell);
+                    }
+                    return this.renderer.table(header, body);
+                }
+            case 'blockquote_start':
+                {
+                    var body = '';
+                    while (this.next().type !== 'blockquote_end') {
+                        body += this.tok();
+                    }
+                    return this.renderer.blockquote(body);
+                }
+            case 'list_start':
+                {
+                    var body = '',
+                        ordered = this.token.ordered;
+                    while (this.next().type !== 'list_end') {
+                        body += this.tok();
+                    }
+                    return this.renderer.list(body, ordered);
+                }
+            case 'list_item_start':
+                {
+                    var body = '';
+                    while (this.next().type !== 'list_item_end') {
+                        body += this.token.type === 'text' ? this.parseText() : this.tok();
+                    }
+                    return this.renderer.listitem(body);
+                }
+            case 'loose_item_start':
+                {
+                    var body = '';
+                    while (this.next().type !== 'list_item_end') {
+                        body += this.tok();
+                    }
+                    return this.renderer.listitem(body);
+                }
+            case 'html':
+                {
+                    var html = !this.token.pre && !this.options.pedantic ? this.inline.output(this.token.text) : this.token.text;
+                    return this.renderer.html(html);
+                }
+            case 'paragraph':
+                {
+                    return this.renderer.paragraph(this.inline.output(this.token.text));
+                }
+            case 'text':
+                {
+                    return this.renderer.paragraph(this.parseText());
+                }
+        }
+    };
+    /**
+     * Helpers
+     */
+    function escape(html, encode) {
+        return html.replace(!encode ? /&(?!#?\w+;)/g : /&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function unescape(html) {
+        return html.replace(/&([#\w]+);/g, function(_, n) {
+            n = n.toLowerCase();
+            if (n === 'colon') return ':';
+            if (n.charAt(0) === '#') {
+                return n.charAt(1) === 'x' ? String.fromCharCode(parseInt(n.substring(2), 16)) : String.fromCharCode(+n.substring(1));
+            }
+            return '';
+        });
+    }
+
+    function replace(regex, opt) {
+        regex = regex.source;
+        opt = opt || '';
+        return function self(name, val) {
+            if (!name) return new RegExp(regex, opt);
+            val = val.source || val;
+            val = val.replace(/(^|[^\[])\^/g, '$1');
+            regex = regex.replace(name, val);
+            return self;
+        };
+    }
+
+    function noop() {}
+    noop.exec = noop;
+
+    function merge(obj) {
+        var i = 1,
+            target, key;
+        for (; i < arguments.length; i++) {
+            target = arguments[i];
+            for (key in target) {
+                if (Object.prototype.hasOwnProperty.call(target, key)) {
+                    obj[key] = target[key];
+                }
+            }
+        }
+        return obj;
+    }
+    /**
+     * Marked
+     */
+    function marked(src, opt, callback) {
+        if (callback || typeof opt === 'function') {
+            if (!callback) {
+                callback = opt;
+                opt = null;
+            }
+            opt = merge({}, marked.defaults, opt || {});
+            var highlight = opt.highlight,
+                tokens, pending, i = 0;
+            try {
+                tokens = Lexer.lex(src, opt)
+            } catch (e) {
+                return callback(e);
+            }
+            pending = tokens.length;
+            var done = function(err) {
+                if (err) {
+                    opt.highlight = highlight;
+                    return callback(err);
+                }
+                var out;
+                try {
+                    out = Parser.parse(tokens, opt);
+                } catch (e) {
+                    err = e;
+                }
+                opt.highlight = highlight;
+                return err ? callback(err) : callback(null, out);
+            };
+            if (!highlight || highlight.length < 3) {
+                return done();
+            }
+            delete opt.highlight;
+            if (!pending) return done();
+            for (; i < tokens.length; i++) {
+                (function(token) {
+                    if (token.type !== 'code') {
+                        return --pending || done();
+                    }
+                    return highlight(token.text, token.lang, function(err, code) {
+                        if (err) return done(err);
+                        if (code == null || code === token.text) {
+                            return --pending || done();
+                        }
+                        token.text = code;
+                        token.escaped = true;
+                        --pending || done();
+                    });
+                })(tokens[i]);
+            }
+            return;
+        }
+        try {
+            if (opt) opt = merge({}, marked.defaults, opt);
+            return Parser.parse(Lexer.lex(src, opt), opt);
+        } catch (e) {
+            e.message += '\nPlease report this to https://github.com/chjj/marked.';
+            if ((opt || marked.defaults).silent) {
+                return '<p>An error occured:</p><pre>' + escape(e.message + '', true) + '</pre>';
+            }
+            throw e;
+        }
+    }
+    /**
+     * Options
+     */
+    marked.options = marked.setOptions = function(opt) {
+        merge(marked.defaults, opt);
+        return marked;
+    };
+    marked.defaults = {
+        gfm: true,
+        tables: true,
+        breaks: false,
+        pedantic: false,
+        sanitize: false,
+        sanitizer: null,
+        mangle: true,
+        smartLists: false,
+        silent: false,
+        highlight: null,
+        langPrefix: 'lang-',
+        smartypants: false,
+        headerPrefix: '',
+        renderer: new Renderer,
+        xhtml: false
+    };
+    /**
+     * Expose
+     */
+    marked.Parser = Parser;
+    marked.parser = Parser.parse;
+    marked.Renderer = Renderer;
+    marked.Lexer = Lexer;
+    marked.lexer = Lexer.lex;
+    marked.InlineLexer = InlineLexer;
+    marked.inlineLexer = InlineLexer.output;
+    marked.parse = marked;
+    if (typeof module !== 'undefined' && typeof exports === 'object') {
+        module.exports = marked;
+    } else if (typeof define === 'function' && define.amd) {
+        define(function() {
+            return marked;
+        });
+    } else {
+        this.marked = marked;
+    }
+}).call(function() {
+    return this || (typeof window !== 'undefined' ? window : global);
+}());
+
+// Hand-rolled 
+
+var codeBlock = document.querySelector('textarea');
+var render = document.querySelector('article');
+codeBlock.onkeyup = (function(e) {
+   render.innerHTML = marked(codeBlock.value);
+});
+
+bindInput = (function() {
+    codeBlock.onscroll = (function() {
+        var max = codeBlock.scrollHeight - codeBlock.clientHeight;
+        var current = codeBlock.scrollTop;
+        var percet = current / max;
+        var maxNew = render.scrollHeight - render.clientHeight;
+        var newPixel = maxNew * percet;
+        render.onscroll = undefined;
+        render.scrollTop = parseInt(newPixel);
+        render.onscroll = bindOutput;
+});
+});
+
+bindOutput = (function() {
+    render.onscroll = (function() {
+        var max = render.scrollHeight - render.clientHeight;
+        var current = render.scrollTop;
+        var percet = current / max;
+        var maxNew = codeBlock.scrollHeight - codeBlock.clientHeight;
+        var newPixel = maxNew * percet;
+        codeBlock.onscroll = undefined;
+        codeBlock.scrollTop = parseInt(newPixel);
+        codeBlock.onscroll = bindInput;
+        });
+});
+
+bindInput();
+bindOutput();
+
+document.querySelector('.i-share').onclick = (function() {
+    if(codeBlock.value === "") {
+        document.querySelector('.share-link').innerText = "Need something to share ... ";
+        window.setTimeout(function() {
+            document.querySelector('.share-link').innerText = "";
+        }, 30000);
+        return;
+    }
+    var x = new XMLHttpRequest();
+        var data = {
+            "description": "Made with zerk.",
+            "files": {
+                "markdown.md": {
+                    "content": codeBlock.value
+                }
+            }
+        };
+    x.onreadystatechange = (function() {
+        if(x.readyState === 4) {
+            if(x.response != null) {
+               link = document.querySelector('.share-link');
+               window.clearTimeout();
+               link.href = x.response["html_url"];
+               link.innerText = x.response["html_url"];
+               link.target = "_blank";
+               link.style.color = "rgba(0, 0, 0, 0.6)";
+               setTimeout(function() {
+                    link.style.color = "";
+               }, 60000);
+
+            } else {
+                window.clearTimeout();
+                document.querySelector('.share-link').innerText = "An error occured ... ";
+            }
+        }
+    });
+    x.open('post', 'https://api.github.com/gists');
+    x.responseType = "json"; 
+    document.querySelector('.share-link').innerText = "Please wait ... ";
+    x.send(JSON.stringify(data)); 
+});
+
+if (navigator.userAgent.indexOf('Mac OS X') == -1) {
+    document.body.classList.add("non-mac");
+}
+
+codeBlock.placeholder = "# Hi! \nThis is a markdown REPL. \nGo ahead, type in some awesomeness."
